@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "9b5d9723-64b1-4288-b55c-c450377886f2",
+		"name": "Spring Restful Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22539467"
+	},
+	"item": [
+		{
+			"name": "Get All Orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\":1,\r\n\"title\":\"hello\",\r\n\"body\":\"hello world\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/order/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"seq\": 3,\r\n    \"totalPrice\": 60,\r\n    \"waiter\": \"Amy\",\r\n    \"mealList\":\r\n    [{\r\n        \"name\": \"egg\",\r\n        \"price\": 20,\r\n        \"description\": \"This is good.\"\r\n    },\r\n    {\r\n        \"name\": \"apple\",\r\n        \"price\": 40,\r\n        \"description\": \"This is apple.\"\r\n    }]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Order",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n    \"seq\": 3,\r\n    \"totalPrice\": 65,\r\n    \"waiter\": \"Bill\",\r\n    \"mealList\":[\r\n        {\r\n            \"name\": \"banana\",\r\n            \"price\": 35,\r\n            \"description\": \"This is good.\"\r\n        },\r\n        {\r\n            \"name\": \"orange\",\r\n            \"price\": 30,\r\n            \"description\": \"This is apple.\"\r\n        }\r\n    ]\r\n}]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/order/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Order",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/order/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
