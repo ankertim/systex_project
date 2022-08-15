@@ -2,13 +2,13 @@ package com.example.springjpa.service;
 
 import com.example.springjpa.controller.dto.request.CreateOrderRequest;
 import com.example.springjpa.controller.dto.request.UpdateOrderRequest;
-import com.example.springjpa.controller.dto.response.OrdersResponse;
+import com.example.springjpa.controller.dto.response.OrderResponse;
 import com.example.springjpa.model.MealsRepository;
-import com.example.springjpa.model.OrderDetailsRepository;
-import com.example.springjpa.model.OrdersRepository;
-import com.example.springjpa.model.entity.Meals;
-import com.example.springjpa.model.entity.OrderDetails;
-import com.example.springjpa.model.entity.Orders;
+import com.example.springjpa.model.OrderDetailRepository;
+import com.example.springjpa.model.OrderRepository;
+import com.example.springjpa.model.entity.Meal;
+import com.example.springjpa.model.entity.OrderDetail;
+import com.example.springjpa.model.entity.Order;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,88 +20,88 @@ import java.util.List;
 @Service
 public class OrderService {
     @Autowired
-    private OrdersRepository ordersRepository;
+    private OrderRepository orderRepository;
 
     @Autowired
-    private OrderDetailsRepository orderDetailsRepository;
+    private OrderDetailRepository orderDetailRepository;
 
     @Autowired
     private MealsRepository mealsRepository;
 
-    public List<OrdersResponse> getAllOrders() {
-        List<OrdersResponse> ordersResponseList = new ArrayList<>();
-        List<Orders> orders = this.ordersRepository.findAll();
+    public List<OrderResponse> getAllOrders() {
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+        List<Order> orderList = this.orderRepository.findAll();
 
-        // for each orders
-        for (Orders order : orders) {
+        // for each order in orderList
+        for (Order order : orderList) {
             int orderID = order.getOrderID();
             int totalPrice = order.getTotalPrice();
             String waiter = order.getWaiter();
             // Add all orders in orderResponseList
-            ordersResponseList.add(new OrdersResponse(orderID, totalPrice, waiter));
-            // Find all order in orderDetails
-            List<OrderDetails> orderDetails = this.orderDetailsRepository.findByOrderID(orderID);
-            for (OrderDetails orderDetail : orderDetails) {
-                // Add all meals in orderDetails to ordersResponse
+            orderResponseList.add(new OrderResponse(orderID, totalPrice, waiter));
+            // Find all order in orderDetailList
+            List<OrderDetail> orderDetailList = this.orderDetailRepository.findByOrderID(orderID);
+            for (OrderDetail orderDetail : orderDetailList) {
+                // Add all meals in orderDetail to orderResponse
                 int mealID = orderDetail.getMealID();
-                Meals meal = this.mealsRepository.findByMealID(mealID);
+                Meal meal = this.mealsRepository.findByMealID(mealID);
                 // ArrayList is not best data structure, it can only use index to get
-                for (OrdersResponse ordersResponse : ordersResponseList) {
-                    if (orderID == ordersResponse.getSeq()) {
-                        ordersResponse.getMealsList().add(meal);
+                for (OrderResponse orderResponse : orderResponseList) {
+                    if (orderID == orderResponse.getSeq()) {
+                        orderResponse.getMealList().add(meal);
                     }
                 }
             }
         }
-        return ordersResponseList;
+        return orderResponseList;
     }
 
-    public OrdersResponse getOrderById(int orderID) {
+    public OrderResponse getOrderById(int orderID) {
 
         // Find order by orderID
-        Orders order = this.ordersRepository.findByOrderID(orderID);
+        Order order = this.orderRepository.findByOrderID(orderID);
         int totalPrice = order.getTotalPrice();
         String waiter = order.getWaiter();
 
         // Create orderResponse
-        OrdersResponse ordersResponse = new OrdersResponse(orderID, totalPrice, waiter);
+        OrderResponse orderResponse = new OrderResponse(orderID, totalPrice, waiter);
         // Find orderDetails by orderID
-        List<OrderDetails> orderDetailsList = this.orderDetailsRepository.findByOrderID(orderID);
-        for (OrderDetails orderDetail : orderDetailsList) {
+        List<OrderDetail> orderDetailList = this.orderDetailRepository.findByOrderID(orderID);
+        for (OrderDetail orderDetail : orderDetailList) {
             int mealID = orderDetail.getMealID();
-            Meals meal = this.mealsRepository.findByMealID(mealID);
-            ordersResponse.getMealsList().add(meal);
+            Meal meal = this.mealsRepository.findByMealID(mealID);
+            orderResponse.getMealList().add(meal);
         }
-        return ordersResponse;
+        return orderResponse;
     }
 
     public String createOrder(CreateOrderRequest request) {
         int orderID = request.getSeq();
 
         // Create order
-        Orders order = new Orders(orderID, request.getTotalPrice(), request.getWaiter());
-        this.ordersRepository.save(order);
+        Order order = new Order(orderID, request.getTotalPrice(), request.getWaiter());
+        this.orderRepository.save(order);
 
         // Create orderDetail
-        // find max of orderDetailsID
-        List<OrderDetails> orderDetailsList = this.orderDetailsRepository.findAll();
+        // find max of orderDetailID
+        List<OrderDetail> orderDetailList = this.orderDetailRepository.findAll();
         int max = 0;
         int insertID = 1;
-        for (OrderDetails orderDetails : orderDetailsList) {
-            if (max < orderDetails.getOrderDetailsID()) { max = orderDetails.getOrderDetailsID(); }
+        for (OrderDetail orderDetail : orderDetailList) {
+            if (max < orderDetail.getOrderDetailID()) { max = orderDetail.getOrderDetailID(); }
         }
-        for (Meals meal : request.getMealsList()) {
-            // How to place new data if data in orderDetails DB are disorder and OrderDetailsID is also random
-            int orderDetailsID = ++max;
+        for (Meal meal : request.getMealList()) {
+            // How to place new data if data in orderDetail DB are disorder and OrderDetailID is also random
+            int orderDetailID = ++max;
             int mealID = meal.getMealID();
-            OrderDetails orderDetail = new OrderDetails(orderDetailsID, orderID, mealID);
-            this.orderDetailsRepository.save(orderDetail);
+            OrderDetail orderDetail = new OrderDetail(orderDetailID, orderID, mealID);
+            this.orderDetailRepository.save(orderDetail);
         }
         return "OK";
     }
 
     public String updateOrder(int orderID, UpdateOrderRequest request) {
-        Orders order = this.ordersRepository.findByOrderID(orderID);
+        Order order = this.orderRepository.findByOrderID(orderID);
         if (null == order) {
             return "FAIL";
         }
@@ -109,42 +109,42 @@ public class OrderService {
         // Update order
         order.setTotalPrice(request.getTotalPrice());
         order.setWaiter(request.getWaiter());
-        this.ordersRepository.save(order);
+        this.orderRepository.save(order);
 
         // Update orderDetail
-        List<OrderDetails> orderDetailsList = this.orderDetailsRepository.findByOrderID(orderID);
+        List<OrderDetail> orderDetailList = this.orderDetailRepository.findByOrderID(orderID);
         int idx = 0;
-        for (Meals meal : request.getMealsList()) {
-            // if orderDetailsList has data then update
-            if (idx < orderDetailsList.size()) {
-                int orderDetailsID = orderDetailsList.get(idx).getOrderDetailsID();
-                OrderDetails orderDetail = new OrderDetails(orderDetailsID, orderID, meal.getMealID());
-                this.orderDetailsRepository.save(orderDetail);
+        for (Meal meal : request.getMealList()) {
+            // if orderDetailList has data then update
+            if (idx < orderDetailList.size()) {
+                int orderDetailID = orderDetailList.get(idx).getOrderDetailID();
+                OrderDetail orderDetail = new OrderDetail(orderDetailID, orderID, meal.getMealID());
+                this.orderDetailRepository.save(orderDetail);
                 idx++;
             } else {
-                // if orderDetailsList's count of data less than updateRequest's, then insert
-                Long count = this.orderDetailsRepository.count();
-                int orderDetailsID = (int)(count + 1);
-                OrderDetails orderDetail = new OrderDetails(orderDetailsID, orderID, meal.getMealID());
-                this.orderDetailsRepository.save(orderDetail);
+                // if orderDetailList's count of data less than updateRequest's, then insert
+                Long count = this.orderDetailRepository.count();
+                int orderDetailID = (int)(count + 1);
+                OrderDetail orderDetail = new OrderDetail(orderDetailID, orderID, meal.getMealID());
+                this.orderDetailRepository.save(orderDetail);
             }
         }
 
-        // if orderDetailsList's count of data more than updateRequest's, then delete
-        if (idx < orderDetailsList.size()) {
-            int orderDetailsID = orderDetailsList.get(idx).getOrderDetailsID();
-            Long count = this.orderDetailsRepository.deleteByOrderDetailsID(orderDetailsID);
+        // if orderDetailList's count of data more than updateRequest's, then delete
+        if (idx < orderDetailList.size()) {
+            int orderDetailID = orderDetailList.get(idx).getOrderDetailID();
+            Long count = this.orderDetailRepository.deleteByOrderDetailID(orderDetailID);
         }
         return "OK";
     }
 
     public String deleteOrderById(int orderID) {
-        Orders order = this.ordersRepository.findByOrderID(orderID);
+        Order order = this.orderRepository.findByOrderID(orderID);
         if (null == order) {
             return "FAIL";
         }
-        Long count1 = this.ordersRepository.deleteByOrderID(orderID);
-        Long count2 = this.orderDetailsRepository.deleteByOrderID(orderID);
+        Long count1 = this.orderRepository.deleteByOrderID(orderID);
+        Long count2 = this.orderDetailRepository.deleteByOrderID(orderID);
         return "OK";
     }
 }

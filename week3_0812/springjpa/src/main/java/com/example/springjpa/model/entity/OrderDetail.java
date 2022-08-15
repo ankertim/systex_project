@@ -15,15 +15,15 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "orders")
-public class Orders {
+@Table(name = "order_details") // if table's name = orderDetails, h2 database will create order_details.
+public class OrderDetail {
     @Id
+    @Column
+    private int orderDetailID; //if column's name is orderDetailsID, h2 database will create order_detailsID.
+
     @Column
     private int orderID;
 
     @Column
-    private int totalPrice;
-
-    @Column
-    private String waiter;
+    private int mealID;
 }

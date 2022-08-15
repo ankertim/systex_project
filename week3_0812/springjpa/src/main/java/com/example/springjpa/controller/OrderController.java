@@ -2,9 +2,8 @@ package com.example.springjpa.controller;
 
 import com.example.springjpa.controller.dto.request.CreateOrderRequest;
 import com.example.springjpa.controller.dto.request.UpdateOrderRequest;
-import com.example.springjpa.controller.dto.response.OrdersResponse;
+import com.example.springjpa.controller.dto.response.OrderResponse;
 import com.example.springjpa.controller.dto.response.StatusResponse;
-import com.example.springjpa.model.entity.OrderDetails;
 import com.example.springjpa.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +17,15 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping
-    public List<OrdersResponse> getAllOrders() {
-        List<OrdersResponse> response = this.orderService.getAllOrders();
+    public List<OrderResponse> getAllOrders() {
+        List<OrderResponse> response = this.orderService.getAllOrders();
         return response;
     }
 
     @GetMapping("/{id}")
-    public OrdersResponse getOrderById(@PathVariable int id) {
-        OrdersResponse ordersResponse = this.orderService.getOrderById(id);
-        return ordersResponse;
+    public OrderResponse getOrderById(@PathVariable int id) {
+        OrderResponse orderResponse = this.orderService.getOrderById(id);
+        return orderResponse;
     }
 
     @PostMapping

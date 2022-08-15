@@ -10,20 +10,25 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+// 使用 Lombok 加入 Getter, Setter, Constructor
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "order_details") // if table's name = orderDetails, h2 database will create order_details.
-public class OrderDetails {
+@Table(name = "meals")
+public class Meal {
     @Id
     @Column
-    private int orderDetailsID; //if column's name is orderDetailsID, h2 database will create order_detailsID.
-
-    @Column
-    private int orderID;
-
-    @Column
     private int mealID;
+
+    @Column
+    private String name;
+
+    @Column
+    private int price;
+
+    @Column
+    private String description;
 }

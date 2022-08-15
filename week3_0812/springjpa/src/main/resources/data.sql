@@ -9,9 +9,9 @@ INSERT INTO meals (mealID, name, price, description) VALUES (6, 'apple', 40, 'Th
 INSERT INTO orders (orderID, total_Price, waiter) VALUES (1, 170, 'Bill');
 INSERT INTO orders (orderID, total_Price, waiter) VALUES (2, 30, 'Ann');
 
-INSERT INTO order_details (order_DetailsID, orderID, mealID) VALUES (1, 1, 1);
-INSERT INTO order_details (order_DetailsID, orderID, mealID) VALUES (2, 1, 2);
-INSERT INTO order_details (order_DetailsID, orderID, mealID) VALUES (3, 1, 3);
+INSERT INTO order_details (order_DetailID, orderID, mealID) VALUES (1, 1, 1);
+INSERT INTO order_details (order_DetailID, orderID, mealID) VALUES (2, 1, 2);
+INSERT INTO order_details (order_DetailID, orderID, mealID) VALUES (3, 1, 3);
 
-INSERT INTO order_details (order_DetailsID, orderID, mealID) VALUES (4, 2, 4);
-INSERT INTO order_details (order_DetailsID, orderID, mealID) VALUES (5, 2, 5);
+INSERT INTO order_details (order_DetailID, orderID, mealID) VALUES (4, 2, 4);
+INSERT INTO order_details (order_DetailID, orderID, mealID) VALUES (5, 2, 5);

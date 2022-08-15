@@ -10,25 +10,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-// 使用 Lombok 加入 Getter, Setter, Constructor
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "meals")
-public class Meals {
+@Table(name = "orders")
+public class Order {
     @Id
     @Column
-    private int mealID;
+    private int orderID;
 
     @Column
-    private String name;
+    private int totalPrice;
 
     @Column
-    private int price;
-
-    @Column
-    private String description;
+    private String waiter;
 }
