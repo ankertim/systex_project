@@ -102,6 +102,9 @@ public class OrderService {
 
     public String updateOrder(int orderID, UpdateOrderRequest request) {
         Orders order = this.ordersRepository.findByOrderID(orderID);
+        if (null == order) {
+            return "FAIL";
+        }
 
         // Update order
         order.setTotalPrice(request.getTotalPrice());
