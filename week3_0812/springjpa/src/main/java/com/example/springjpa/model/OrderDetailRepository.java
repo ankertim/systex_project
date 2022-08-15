@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Integer> {
     List<OrderDetail> findByOrderID(int orderID);
-    OrderDetail findByOrderDetailID(int orderDetailsID);
-    Long deleteByOrderDetailID(int orderDetailsID);
+    OrderDetail findByOrderDetailID(int orderDetailID);
+    Long deleteByOrderDetailID(int orderDetailID);
 
     @Transactional
     Long deleteByOrderID(int orderID);
