@@ -3,7 +3,7 @@ INSERT INTO meals (mealID, name, price, description) VALUES (2, 'sandwich', 50, 
 INSERT INTO meals (mealID, name, price, description) VALUES (3, 'juice', 20, 'This is juice');
 INSERT INTO meals (mealID, name, price, description) VALUES (4, 'rice', 10, 'This is rice');
 INSERT INTO meals (mealID, name, price, description) VALUES (5, 'egg', 20, 'This is egg');
-INSERT INTO meals (mealID, name, price, description) VALUES (6, 'apple', 60, 'This is apple');
+INSERT INTO meals (mealID, name, price, description) VALUES (6, 'apple', 40, 'This is apple');
 
 
 INSERT INTO orders (orderID, total_Price, waiter) VALUES (1, 170, 'Bill');

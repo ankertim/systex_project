@@ -1,5 +1,6 @@
 package com.example.springjpa.service;
 
+import com.example.springjpa.controller.dto.request.CreateOrderRequest;
 import com.example.springjpa.controller.dto.response.OrdersResponse;
 import com.example.springjpa.model.MealsRepository;
 import com.example.springjpa.model.OrderDetailsRepository;
@@ -64,12 +65,23 @@ public class OrderService {
         }
         return ordersResponse;
     }
-/*
-    public OrderDetails createOrder(OrderDetails order) {
-        this.orderList.add(order);
-        return order;
-    }
 
+    public String createOrder(CreateOrderRequest request) {
+        int orderID = request.getSeq();
+        // orders
+        Orders order = new Orders(orderID, request.getTotalPrice(), request.getWaiter());
+        this.ordersRepository.save(order);
+        // orderDetails
+        for (Meals meal : request.getMealsList()) {
+            Long count = this.orderDetailsRepository.count();
+            int id = (int)(count + 1);
+            int mealID = meal.getMealID();
+            OrderDetails orderDetail = new OrderDetails(id, orderID, mealID);
+            this.orderDetailsRepository.save(orderDetail);
+        }
+        return "OK";
+    }
+/*
     public OrderDetails updateOrder(int id, OrderDetails order) {
         for (OrderDetails updatedOrder : this.orderList) {
             if (id == updatedOrder.getSeq()) {

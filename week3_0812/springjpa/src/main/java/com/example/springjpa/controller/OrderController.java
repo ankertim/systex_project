@@ -1,7 +1,11 @@
 package com.example.springjpa.controller;
 
+import com.example.springjpa.controller.dto.request.CreateOrderRequest;
 import com.example.springjpa.controller.dto.response.OrdersResponse;
+import com.example.springjpa.controller.dto.response.StatusResponse;
+import com.example.springjpa.model.entity.OrderDetails;
 import com.example.springjpa.service.OrderService;
+import org.apache.catalina.realm.CombinedRealm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +28,13 @@ public class OrderController {
         OrdersResponse ordersResponse = this.orderService.getOrderById(id);
         return ordersResponse;
     }
-/*
-    @PostMapping
-    public OrderDetails createOrder(@RequestBody OrderDetails order) {
-        OrderDetails createdOrder = this.orderService.createOrder(order);
-        return createdOrder;
-    }
 
+    @PostMapping
+    public StatusResponse createOrder(@RequestBody CreateOrderRequest request) {
+        String response  = this.orderService.createOrder(request);
+        return new StatusResponse(response);
+    }
+/*
     @PutMapping("/{id}")
     public OrderDetails updateOrder(@PathVariable int id, @RequestBody OrderDetails order) {
         OrderDetails updatedOrder = this.orderService.updateOrder(id, order);
