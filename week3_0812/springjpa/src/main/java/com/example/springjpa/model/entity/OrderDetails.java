@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class OrderDetails {
     @Id
     @Column
-    private int orderDetailsID; //if column's name is orderDetailsID, h2 database will create order_datailsID.
+    private int orderDetailsID; //if column's name is orderDetailsID, h2 database will create order_detailsID.
 
     @Column
     private int orderID;

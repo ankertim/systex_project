@@ -40,11 +40,10 @@ public class OrderController {
         String response = this.orderService.updateOrder(id, request);
         return new StatusResponse(response);
     }
-/*
+
     @DeleteMapping("/{id}")
-    public OrderDetails deletedOrder(@PathVariable int id) {
-        OrderDetails deletedOrder = this.orderService.deleteOrder(id);
-        return deletedOrder;
+    public StatusResponse deletedOrderById(@PathVariable int id) {
+        String response = this.orderService.deleteOrderById(id);
+        return new StatusResponse(response);
     }
- */
 }

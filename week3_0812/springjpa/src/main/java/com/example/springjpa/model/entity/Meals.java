@@ -19,7 +19,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "meals")
 public class Meals {
-
     @Id
     @Column
     private int mealID;
