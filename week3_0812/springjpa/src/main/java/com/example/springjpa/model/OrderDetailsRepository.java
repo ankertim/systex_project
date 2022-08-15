@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Integer> {
     List<OrderDetails> findByOrderID(int orderID);
+    Long deleteByOrderDetailsID(int orderDetailsID);
 }

@@ -1,6 +1,7 @@
 package com.example.springjpa.service;
 
 import com.example.springjpa.controller.dto.request.CreateOrderRequest;
+import com.example.springjpa.controller.dto.request.UpdateOrderRequest;
 import com.example.springjpa.controller.dto.response.OrdersResponse;
 import com.example.springjpa.model.MealsRepository;
 import com.example.springjpa.model.OrderDetailsRepository;
@@ -57,8 +58,8 @@ public class OrderService {
         // Create orderResponse
         OrdersResponse ordersResponse = new OrdersResponse(orderID, totalPrice, waiter);
         // Find orderDetails by orderID
-        List<OrderDetails> orderDetails = this.orderDetailsRepository.findByOrderID(orderID);
-        for (OrderDetails orderDetail : orderDetails) {
+        List<OrderDetails> orderDetailsList = this.orderDetailsRepository.findByOrderID(orderID);
+        for (OrderDetails orderDetail : orderDetailsList) {
             int mealID = orderDetail.getMealID();
             Meals meal = this.mealsRepository.findByMealID(mealID);
             ordersResponse.getMealsList().add(meal);
@@ -68,32 +69,53 @@ public class OrderService {
 
     public String createOrder(CreateOrderRequest request) {
         int orderID = request.getSeq();
-        // orders
+        // Create order
         Orders order = new Orders(orderID, request.getTotalPrice(), request.getWaiter());
         this.ordersRepository.save(order);
-        // orderDetails
+        // Create orderDetail
         for (Meals meal : request.getMealsList()) {
             Long count = this.orderDetailsRepository.count();
-            int id = (int)(count + 1);
+            int orderDetailsID = (int)(count + 1);
             int mealID = meal.getMealID();
-            OrderDetails orderDetail = new OrderDetails(id, orderID, mealID);
+            OrderDetails orderDetail = new OrderDetails(orderDetailsID, orderID, mealID);
             this.orderDetailsRepository.save(orderDetail);
         }
         return "OK";
     }
-/*
-    public OrderDetails updateOrder(int id, OrderDetails order) {
-        for (OrderDetails updatedOrder : this.orderList) {
-            if (id == updatedOrder.getSeq()) {
-                updatedOrder.setTotalPrice(order.getTotalPrice());
-                updatedOrder.setWaiter(order.getWaiter());
-                updatedOrder.setMealList(order.getMealList());
-                return updatedOrder;
+
+    public String updateOrder(int orderID, UpdateOrderRequest request) {
+        Orders order = this.ordersRepository.findByOrderID(orderID);
+        // Update order
+        order.setTotalPrice(request.getTotalPrice());
+        order.setWaiter(request.getWaiter());
+        this.ordersRepository.save(order);
+        // Update orderDetail
+        List<OrderDetails> orderDetailsList = this.orderDetailsRepository.findByOrderID(orderID);
+        int idx = 0;
+        for (Meals meal : request.getMealsList()) {
+            // if orderDetailsList has data then update
+            if (idx < orderDetailsList.size()) {
+                int orderDetailsID = orderDetailsList.get(idx).getOrderDetailsID();
+                OrderDetails orderDetail = new OrderDetails(orderDetailsID, orderID, meal.getMealID());
+                this.orderDetailsRepository.save(orderDetail);
+                idx++;
+            } else {
+                // if orderDetailsList's count of data less than updateRequest's, than insert
+                Long count = this.orderDetailsRepository.count();
+                int orderDetailsID = (int)(count + 1);
+                OrderDetails orderDetail = new OrderDetails(orderDetailsID, orderID, meal.getMealID());
+                this.orderDetailsRepository.save(orderDetail);
             }
         }
-        return null;
-    }
 
+        // if orderDetailsList's count of data more than updateRequest's, than delete
+        if (idx < orderDetailsList.size()) {
+            int orderDetailsID = orderDetailsList.get(idx).getOrderDetailsID();
+            Long count = this.orderDetailsRepository.deleteByOrderDetailsID(orderDetailsID);
+        }
+        return "OK";
+    }
+/*
     public OrderDetails deleteOrder(int id) {
         for (OrderDetails order : this.orderList) {
             if (id == order.getSeq()) {
