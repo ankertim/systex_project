@@ -15,11 +15,11 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "order_details")
+@Table(name = "order_details") // if table's name = orderDetails, h2 database will create order_details.
 public class OrderDetails {
     @Id
     @Column
-    private int orderDetailsID;
+    private int orderDetailsID; //if column's name is orderDetailsID, h2 database will create order_datailsID.
 
     @Column
     private int orderID;
