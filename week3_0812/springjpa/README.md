@@ -13,7 +13,7 @@
 
 - http://localhost:8080/api/v1/order
 
-### PUT 利用 id 來新增 order
+### PUT 利用 id 來更新 order
 
 - http://localhost:8080/api/v1/order/:id
     - id: orderID 
