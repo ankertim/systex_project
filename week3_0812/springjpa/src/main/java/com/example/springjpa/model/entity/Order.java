@@ -22,8 +22,5 @@ public class Order {
     private int orderID;
 
     @Column
-    private int totalPrice;
-
-    @Column
     private String waiter;
 }

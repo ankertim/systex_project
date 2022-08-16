@@ -6,8 +6,8 @@ INSERT INTO meals (mealID, name, price, description) VALUES (5, 'egg', 20, 'This
 INSERT INTO meals (mealID, name, price, description) VALUES (6, 'apple', 40, 'This is apple');
 
 
-INSERT INTO orders (orderID, total_Price, waiter) VALUES (1, 170, 'Bill');
-INSERT INTO orders (orderID, total_Price, waiter) VALUES (2, 30, 'Ann');
+INSERT INTO orders (orderID, waiter) VALUES (1, 'Bill');
+INSERT INTO orders (orderID, waiter) VALUES (2, 'Ann');
 
 INSERT INTO order_details (order_DetailID, orderID, mealID) VALUES (1, 1, 1);
 INSERT INTO order_details (order_DetailID, orderID, mealID) VALUES (2, 1, 2);

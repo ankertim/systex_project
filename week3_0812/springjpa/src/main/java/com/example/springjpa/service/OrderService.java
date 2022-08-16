@@ -35,10 +35,9 @@ public class OrderService {
         // for each order in orderList
         for (Order order : orderList) {
             int orderID = order.getOrderID();
-            int totalPrice = order.getTotalPrice();
             String waiter = order.getWaiter();
             // Add all orders in orderResponseList
-            orderResponseList.add(new OrderResponse(orderID, totalPrice, waiter));
+            orderResponseList.add(new OrderResponse(orderID, waiter));
             // Find all order in orderDetailList
             List<OrderDetail> orderDetailList = this.orderDetailRepository.findByOrderID(orderID);
             for (OrderDetail orderDetail : orderDetailList) {
@@ -48,7 +47,7 @@ public class OrderService {
                 // ArrayList is not best data structure, it can only use index to get
                 for (OrderResponse orderResponse : orderResponseList) {
                     if (orderID == orderResponse.getSeq()) {
-                        orderResponse.getMealList().add(meal);
+                        orderResponse.addMeal(meal);
                     }
                 }
             }
@@ -60,17 +59,16 @@ public class OrderService {
 
         // Find order by orderID
         Order order = this.orderRepository.findByOrderID(orderID);
-        int totalPrice = order.getTotalPrice();
         String waiter = order.getWaiter();
 
         // Create orderResponse
-        OrderResponse orderResponse = new OrderResponse(orderID, totalPrice, waiter);
+        OrderResponse orderResponse = new OrderResponse(orderID, waiter);
         // Find orderDetails by orderID
         List<OrderDetail> orderDetailList = this.orderDetailRepository.findByOrderID(orderID);
         for (OrderDetail orderDetail : orderDetailList) {
             int mealID = orderDetail.getMealID();
             Meal meal = this.mealsRepository.findByMealID(mealID);
-            orderResponse.getMealList().add(meal);
+            orderResponse.addMeal(meal);
         }
         return orderResponse;
     }
@@ -79,7 +77,7 @@ public class OrderService {
         int orderID = request.getSeq();
 
         // Create order
-        Order order = new Order(orderID, request.getTotalPrice(), request.getWaiter());
+        Order order = new Order(orderID, request.getWaiter());
         this.orderRepository.save(order);
 
         // Create orderDetail
@@ -107,7 +105,6 @@ public class OrderService {
         }
 
         // Update order
-        order.setTotalPrice(request.getTotalPrice());
         order.setWaiter(request.getWaiter());
         this.orderRepository.save(order);
 

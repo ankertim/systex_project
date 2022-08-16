@@ -19,10 +19,25 @@ public class OrderResponse {
     private String waiter;
     private List<Meal> mealList;
 
-    public OrderResponse(int seq, int totalPrice, String waiter) {
+    public OrderResponse(int seq, String waiter) {
         this.seq = seq;
-        this.totalPrice = totalPrice;
         this.waiter = waiter;
+        this.totalPrice = 0;
         this.mealList = new ArrayList<>();
     }
+
+    public void setTotalPrice() {
+        int totalPrice = 0;
+        for (Meal meal : this.mealList) {
+            totalPrice += meal.getPrice();
+        }
+        this.totalPrice = totalPrice;
+    }
+
+    public void addMeal(Meal meal) {
+        this.mealList.add(meal);
+        this.setTotalPrice();
+    }
+
+
 }
