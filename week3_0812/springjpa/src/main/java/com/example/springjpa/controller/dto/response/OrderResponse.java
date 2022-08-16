@@ -38,6 +38,4 @@ public class OrderResponse {
         this.mealList.add(meal);
         this.setTotalPrice();
     }
-
-
 }
