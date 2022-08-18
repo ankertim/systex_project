@@ -38,7 +38,7 @@ public class OrderService {
             String waiter = order.getWaiter();
             // Add all orders in orderResponseList
             orderResponseList.add(new OrderResponse(orderID, waiter));
-            // Find all order in orderDetailList
+            // Find all orderDetail in orderDetailList
             List<OrderDetail> orderDetailList = this.orderDetailRepository.findByOrderID(orderID);
             for (OrderDetail orderDetail : orderDetailList) {
                 // Add all meals in orderDetail to orderResponse
