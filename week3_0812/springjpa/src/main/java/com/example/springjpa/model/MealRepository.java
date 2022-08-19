@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MealsRepository extends JpaRepository<Meal, Integer> {
+public interface MealRepository extends JpaRepository<Meal, Integer> {
     Meal findByMealID(int mealID);
 }

@@ -3,7 +3,7 @@ package com.example.springjpa.service;
 import com.example.springjpa.controller.dto.request.CreateOrderRequest;
 import com.example.springjpa.controller.dto.request.UpdateOrderRequest;
 import com.example.springjpa.controller.dto.response.OrderResponse;
-import com.example.springjpa.model.MealsRepository;
+import com.example.springjpa.model.MealRepository;
 import com.example.springjpa.model.OrderDetailRepository;
 import com.example.springjpa.model.OrderRepository;
 import com.example.springjpa.model.entity.Meal;
@@ -26,7 +26,7 @@ public class OrderService {
     private OrderDetailRepository orderDetailRepository;
 
     @Autowired
-    private MealsRepository mealsRepository;
+    private MealRepository mealRepository;
 
     public List<OrderResponse> getAllOrders() {
         List<OrderResponse> orderResponseList = new ArrayList<>();
@@ -43,7 +43,7 @@ public class OrderService {
             for (OrderDetail orderDetail : orderDetailList) {
                 // Add all meals in orderDetail to orderResponse
                 int mealID = orderDetail.getMealID();
-                Meal meal = this.mealsRepository.findByMealID(mealID);
+                Meal meal = this.mealRepository.findByMealID(mealID);
                 // ArrayList is not best data structure, it can only use index to get
                 for (OrderResponse orderResponse : orderResponseList) {
                     if (orderID == orderResponse.getSeq()) {
@@ -67,7 +67,7 @@ public class OrderService {
         List<OrderDetail> orderDetailList = this.orderDetailRepository.findByOrderID(orderID);
         for (OrderDetail orderDetail : orderDetailList) {
             int mealID = orderDetail.getMealID();
-            Meal meal = this.mealsRepository.findByMealID(mealID);
+            Meal meal = this.mealRepository.findByMealID(mealID);
             orderResponse.addMeal(meal);
         }
         return orderResponse;
