@@ -15,4 +15,4 @@
 
 ## Demo
 
-![demo](https://i.imgur.com/tLmPx6t.png)
+![demo](https://i.imgur.com/SVOjoYy.png)
